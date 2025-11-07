@@ -1,51 +1,42 @@
 import mongoose, { Document, Schema } from "mongoose";
-import bcrypt from "bcrypt";
 
-// ✅ 1. TypeScript interface for User Document
-export interface IUser extends Document {
-            email: string;
-            password: string;
-            comparePassword(candidatePassword: string): Promise<boolean>;
+// ✅ 1. Task interface for TypeScript
+export interface ITask extends Document {
+            title: string;
+            description: string;
+            status: "pending" | "completed";
+            user: mongoose.Types.ObjectId; // reference to User
 }
 
 // ✅ 2. Mongoose Schema
-const userSchema: Schema<IUser> = new mongoose.Schema(
+const taskSchema: Schema<ITask> = new mongoose.Schema(
             {
-                        email: {
+                        title: {
                                     type: String,
-                                    required: [true, "Email is required"],
-                                    unique: true,
-                                    lowercase: true,
-                                    trim: true,
-                                    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
+                                    required: true,
                         },
 
-                        password: {
+                        description: {
                                     type: String,
-                                    required: [true, "Password is required"],
-                                    minlength: 6,
-                                    select: false, // ✅ prevents password from being returned in queries
+                                    required: true,
+                        },
+
+                        status: {
+                                    type: String,
+                                    enum: ["pending", "completed"],
+                                    default: "pending",
+                        },
+
+                        user: {
+                                    type: mongoose.Schema.Types.ObjectId,
+                                    ref: "User",
+                                    required: true,
                         },
             },
             { timestamps: true }
 );
 
-// ✅ 3. Pre-save hook to hash password
-userSchema.pre("save", async function (next) {
-            if (!this.isModified("password")) return next();
+// ✅ 3. Mongoose model
+const Task = mongoose.model<ITask>("Task", taskSchema);
 
-            const salt = await bcrypt.genSalt(10);
-            this.password = await bcrypt.hash(this.password, salt);
-
-            next();
-});
-
-// ✅ 4. Method to compare passwords
-userSchema.methods.comparePassword = function (candidatePassword: string) {
-            return bcrypt.compare(candidatePassword, this.password);
-};
-
-// ✅ 5. Create Model
-const User = mongoose.model<IUser>("User", userSchema);
-
-export default User;
+export default Task;
