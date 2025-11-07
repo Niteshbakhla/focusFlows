@@ -1,0 +1,47 @@
+# ─── Node ─────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── TypeScript Build Output ──────────────────────────
+dist/
+build/
+out/
+
+# ─── Environment Files ────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# ─── Logs ─────────────────────────────────────────────
+logs/
+*.log
+*.log.*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ─── OS / Editor Files ────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── IDE / Project Files ──────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+# ─── Optional Build Caches ────────────────────────────
+.cache/
+.tmp/
+tsconfig.tsbuildinfo
+
+# ─── Debuggers / Tools ────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── Misc ─────────────────────────────────────────────
+*.tgz
