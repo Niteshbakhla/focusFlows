@@ -51,9 +51,10 @@ export const updateTask = asyncHandler(async (req: AuthRequest, res: Response) =
             }
 
             // Update fields
-            task.title = title ?? task.title;
-            task.description = description ?? task.description;
-            task.status = status ?? task.status;
+            if (title !== undefined) task.title = title;
+            if (description !== undefined) task.description = description;
+            if (status !== undefined) task.status = status;
+
 
             const updatedTask = await task.save();
 

@@ -6,7 +6,8 @@ export interface IUser extends Document {
             email: string;
             password: string;
             comparePassword(candidatePassword: string): Promise<boolean>,
-            _id: mongoose.Types.ObjectId
+            _id: mongoose.Types.ObjectId,
+            refreshToken?: string;
 }
 
 // ✅ 2. Mongoose Schema
@@ -27,6 +28,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
                                     minlength: 6,
                                     select: false, // ✅ prevents password from being returned in queries
                         },
+                        refreshToken: { type: String, default: "" }
             },
             { timestamps: true }
 );
