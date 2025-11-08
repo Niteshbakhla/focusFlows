@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // ✅ 1. TypeScript interface for User Document
 export interface IUser extends Document {
@@ -36,7 +36,7 @@ userSchema.pre("save", async function (next) {
             if (!this.isModified("password")) return next();
 
             const salt = await bcrypt.genSalt(10);
-            this.password = await bcrypt.hash(this.password, salt);
+            this.password = await bcrypt.hash(this.password, 10);
 
             next();
 });
