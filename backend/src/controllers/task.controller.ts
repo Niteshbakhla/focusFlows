@@ -7,6 +7,7 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 // ✅ CREATE TASK
 export const createTask = asyncHandler(async (req: AuthRequest, res: Response) => {
             const { title, description } = req.body;
+            console.log(req.body)
 
             if (!title || !description) {
                         throw new customError("Title and description are required", 400);

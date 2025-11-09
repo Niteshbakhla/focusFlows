@@ -4,6 +4,7 @@ import customError from "../utils/customError";
 import User from "../models/user.model";
 import { generateAccessToken, generateRefreshToken } from "../utils/generateToken";
 import config from "../config/config";
+import jwt from "jsonwebtoken";
 
 
 // ✅ REGISTER USER
@@ -36,7 +37,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
             // Send refresh token in http-only cookie
             res.cookie("refreshToken", refreshToken, {
                         httpOnly: true,
-                        secure: config.NODE_ENV !=="production",
+                        secure: config.NODE_ENV !== "production",
                         sameSite: "none",
                         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
             });
@@ -79,5 +80,24 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
                                     id: user._id,
                                     email: user.email,
                         },
+            });
+});
+
+export const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
+            const token = req.cookies.refreshToken;
+
+            if (!token) throw new customError("No refresh token provided", 401);
+
+            const userData = jwt.verify(token, config.JWT_REFRESH_SECRET as string) as { id: string };
+
+            const user = await User.findById(userData.id);
+            if (!user || user.refreshToken !== token) {
+                        throw new customError("Invalid refresh token", 403);
+            }
+
+            const newAccessToken = generateAccessToken(user._id.toString());
+
+            return res.json({
+                        accessToken: newAccessToken,
             });
 });
