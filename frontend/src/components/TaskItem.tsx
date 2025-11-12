@@ -12,7 +12,7 @@ export default function TaskItem({ task }: { task: any }) {
             const [open, setOpen] = useState(false);
             const [title, setTitle] = useState(task.title);
             const [description, setDescription] = useState(task.description);
-
+            
             const updateMutation = useMutation({
                         mutationFn: (data: any) => updateTask(task._id, data),
                         onSuccess: () => {
