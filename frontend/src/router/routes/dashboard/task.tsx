@@ -14,6 +14,7 @@ import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { useState } from "react";
 import { createTask, fetchTasks } from "../../../api/task";
+import TaskItem from "../../../components/TaskItem";
 
 export function TasksPage() {
             const queryClient = useQueryClient();
@@ -99,20 +100,7 @@ export function TasksPage() {
                                     {/* ✅ Task List */}
                                     <div className="space-y-4">
                                                 {data?.tasks?.map((task: any) => (
-                                                            <div
-                                                                        key={task._id}
-                                                                        className="p-4 border rounded-lg flex justify-between items-center"
-                                                            >
-                                                                        <div>
-                                                                                    <h3 className="font-semibold">{task.title}</h3>
-                                                                                    <p className="text-gray-600">{task.description}</p>
-                                                                        </div>
-
-                                                                        <div className="flex gap-3">
-                                                                                    <Button variant="secondary">Edit</Button>
-                                                                                    <Button variant="destructive">Delete</Button>
-                                                                        </div>
-                                                            </div>
+                                                            <TaskItem key={task._id} task={task} />
                                                 ))}
                                     </div>
                         </div>
