@@ -28,7 +28,7 @@ export function LoginPage() {
 
                         try {
                                     await login(email, password);
-                                    navigate({ to: "/dashboard" })
+                                    navigate({ to: "/dashboard/tasks" })
                         } catch (error: any) {
                                     setError(error?.response?.data?.message || "Login failed");
                         }
