@@ -101,3 +101,8 @@ export const refreshAccessToken = asyncHandler(async (req: Request, res: Respons
                         accessToken: newAccessToken,
             });
 });
+
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+            res.clearCookie("refreshToken");
+            return res.json({ message: "Logged out successfully" });
+});
