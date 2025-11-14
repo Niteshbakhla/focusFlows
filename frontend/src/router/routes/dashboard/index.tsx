@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { tasksRoute } from "../root";
 
 export function DashboardPage() {
-            const { logout, user } = useAuth();
+            const { logout } = useAuth();
 
             return (
                         <div className="flex min-h-screen">
@@ -32,16 +32,6 @@ export function DashboardPage() {
                                                             </Button>
                                                 </div>
                                     </aside>
-
-                                    {/* Main Content */}
-                                    {/* <main className="flex-1 p-8">
-                                                <h2 className="text-3xl font-bold">Welcome, {user?.email}</h2>
-                                                <p className="text-gray-600 mt-2">Here’s your productivity dashboard.</p>
-
-                                                <div className="mt-10 text-lg text-gray-500">
-                                                            <p>Select "My Tasks" from the sidebar to view your tasks.</p>
-                                                </div>
-                                    </main> */}
                                     <Outlet />
 
                         </div>
